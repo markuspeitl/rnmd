@@ -1,0 +1,1 @@
+python3 compile_md.py notebook/test.md scripts/test
