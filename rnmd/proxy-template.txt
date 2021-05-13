@@ -14,4 +14,8 @@ if [ ! -f "$markdown_doc_path" ]; then
     exit -1
 fi
 
+if [ ! -z "$backup_path" ]; then
+    cp "$markdown_doc_path" "$backup_path"
+fi
+
 $runner$runtime_path $markdown_doc_path
