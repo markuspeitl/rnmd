@@ -3,9 +3,11 @@ from setuptools import setup
 with open("README.md","r") as readme_file:
     long_description = readme_file.read()
 
+exec(open("rnmd/__init__.py").read())
+
 setup(
     name='rnmd',
-    version='0.0.1',
+    version=__version__,
     packages=['rnmd'],
     include_package_data=True,
     python_requires='>=3',

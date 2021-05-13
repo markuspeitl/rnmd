@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import os
 import argparse
 import rnmd.runtime
 import rnmd.make_proxy
@@ -8,6 +7,7 @@ import rnmd.compile_markdown
 import rnmd.extract_code
 import rnmd.setup_manager
 import rnmd.install_markdown
+import rnmd
 
 def main():
 
@@ -19,6 +19,7 @@ def main():
     basegroup.add_argument('source', nargs='?', help="Source of the documentation file to consume - .md is executed when no other option specified later \
         possible to be a path or and URL")
     basegroup.add_argument('-setup','--setup', action="store_true", help="Setup the rnmd configuration and add make your proxies executable from anywhere")
+    basegroup.add_argument('-v','--version', action="store_true", help="Show rnmd version")
     
     group = parser.add_mutually_exclusive_group()
     
@@ -37,8 +38,10 @@ def main():
     #ps | grep `echo $$` | awk '{ print $4 }'
 
     if(arguments.setup):
-        #os.system("bash " + os.path.join(os.path.dirname(__file__),"setup-manager.sh"))
         rnmd.setup_manager.start_setup_process()
+        exit()
+    if(arguments.version):
+        print(rnmd.__version__)
         exit()
 
     if(doc_source is None):
