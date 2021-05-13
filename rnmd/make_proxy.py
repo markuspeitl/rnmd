@@ -15,7 +15,7 @@ with open(installer_file_path, "r") as installer_file:
 #TODO replace by platform independent python script instead
 proxy_template = Template(template_string)
 
-def make_proxy(source_path, target_path, relative=False, localInstall=False):
+def make_proxy(source_path, target_path, relative = False, localInstall = False):
 
     #shebang = "#!/usr/bin/env python3"
     shebang = "#!/usr/bin/env bash"
@@ -31,9 +31,9 @@ def make_proxy(source_path, target_path, relative=False, localInstall=False):
 
     if(relative):
         #Relative path from proxy file to markdown doc
-        doc_path = os.path.relpath(markdown_doc_path, os.path.dirname(target_path));
+        markdown_doc_path = os.path.relpath(markdown_doc_path, os.path.dirname(target_path));
         #Has to be added in bash so that the path is resolved from the proxies location (and not the caller directory)
-        doc_path = os.path.join("`dirname $0`", doc_path)
+        markdown_doc_path = os.path.join("`dirname $0`", markdown_doc_path)
 
     substitution_dict = { 
         'shebang':shebang,

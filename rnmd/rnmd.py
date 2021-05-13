@@ -7,6 +7,7 @@ import rnmd.make_proxy
 import rnmd.compile_markdown
 import rnmd.extract_code
 import rnmd.setup_manager
+import rnmd.install_markdown
 
 def main():
 
@@ -22,6 +23,7 @@ def main():
     group = parser.add_mutually_exclusive_group()
     
     group.add_argument('-i','--install', help="Create an extensionless proxy for doc and install at a location inside path")
+    group.add_argument('-qi','--quickinstall', action="store_true", help="Installs the document to the notebook with the same name as the document")
     group.add_argument('-p','--proxy', help="Create proxy file/fake binary to execute source document at location")
     group.add_argument('-b','--blocks', nargs='+', type=int, help="Execute specific code blocks")
     group.add_argument('-e','--extract', action="store_true", help="Print the extracted code that would be run")
@@ -33,7 +35,7 @@ def main():
     doc_source = arguments.source
 
     #ps | grep `echo $$` | awk '{ print $4 }'
-    
+
     if(arguments.setup):
         #os.system("bash " + os.path.join(os.path.dirname(__file__),"setup-manager.sh"))
         rnmd.setup_manager.start_setup_process()
@@ -42,15 +44,10 @@ def main():
     if(doc_source is None):
         print("rnmd.py: error: the following arguments are required: 'source' or '--setup'")
         exit()
-
     elif(arguments.install):
-        install_name = arguments.install
-        install_dir = os.path.join(os.path.expanduser('~'),"rndb-notebook", "bin")
-        #doc_dir = os.path.join(Path.home(),"rndb-notebook", "docs")
-        install_bin = os.path.join(install_dir, install_name)
-        os.system("mkdir -p " + install_dir)
-        print("target: " + install_bin)
-        rnmd.make_proxy.make_proxy(doc_source, install_bin)
+        rnmd.install_markdown.install(doc_source, arguments.install)
+    elif(arguments.quickinstall):
+        rnmd.install_markdown.install(doc_source)
     elif(arguments.proxy):
         proxy_target = arguments.proxy
         rnmd.make_proxy.make_proxy(doc_source, proxy_target)

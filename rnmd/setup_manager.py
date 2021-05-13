@@ -1,5 +1,6 @@
 from sys import platform
 import os
+import rnmd.configuration_manager
 
 default_notebook_path = os.path.join(os.path.expanduser('~'),"rndb-notebook")
 
@@ -64,7 +65,7 @@ def prompt_add_path(notebook_path):
 
             profile_contents = sh_config_read_file.read()
             if(path_export in profile_contents):
-                print("Path export already in selected profile!")
+                print("Path export already found in selected profile configuration file - skipping adding line!")
                 return selected_notebook_bin_path
         
         path_extension_string = comment + path_export
@@ -100,6 +101,9 @@ def start_setup_process():
     if not os.path.exists(selected_notebook_path):
         os.makedirs(selected_notebook_path, exist_ok=True)
 
+    print("Storing notebook location in rnmd configuration at: " + rnmd.configuration_manager.get_config_path())
+    rnmd.configuration_manager.set("NOTE_BOOK_DIR", selected_notebook_path)
+
     print("\nYou chose: " + selected_notebook_path + " as your notebook path.\n\n")
 
     added_path = prompt_add_path(selected_notebook_path)
@@ -107,7 +111,7 @@ def start_setup_process():
         print(added_path + " successfully added to your PATH environment\n")
 
     print("RNMD markdown runtime (install module) setup finished.")
-    print("Pleas restart your terminal for changes to take effect.")
+    print("Please restart your terminal for changes to take effect.")
 
     #CURRENT_SHELL=$(ps | grep `echo $$` | awk '{ print $4 }')
     #echo "Detected shell is $CURRENT_SHELL"
