@@ -29,6 +29,8 @@ def main():
     group.add_argument('-b','--blocks', nargs='+', type=int, help="Execute specific code blocks")
     group.add_argument('-e','--extract', action="store_true", help="Print the extracted code that would be run")
     group.add_argument('-c','--compile', help="Compile to target file - for compiled languages")
+    group.add_argument('-r','--remove', action="store_true", help="Remove installed markdown execution proxy")
+    group.add_argument('-l','--list', action="store_true", help="List all markdown proxies installed in notebook")
 
     # Parse the arguments
     arguments = parser.parse_args()
@@ -37,6 +39,9 @@ def main():
 
     #ps | grep `echo $$` | awk '{ print $4 }'
 
+    if(arguments.list):
+        rnmd.install_markdown.list_installed()
+        exit()
     if(arguments.setup):
         rnmd.setup_manager.start_setup_process()
         exit()
@@ -51,6 +56,8 @@ def main():
         rnmd.install_markdown.install(doc_source, arguments.install)
     elif(arguments.quickinstall):
         rnmd.install_markdown.install(doc_source)
+    elif(arguments.remove):
+        rnmd.install_markdown.remove_install(doc_source)
     elif(arguments.proxy):
         proxy_target = arguments.proxy
         rnmd.make_proxy.make_proxy(doc_source, proxy_target)

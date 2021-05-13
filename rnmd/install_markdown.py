@@ -22,11 +22,16 @@ def backup_document(source_path, notebook_dir):
     shutil.copyfile(source_path, target_file)
     return target_file
 
+def ask_yes(text):
+    print(text)
+    answer = input()
+    if(answer == "y"):
+        return True
+    return False
+
 def handle_if_file_conflict(target_path):
     if(os.path.exists(target_path)):
-        print("'" + target_path + "' already exists, do you want to overwrite it. (y/n)")
-        answer = input()
-        if(answer == "y"):
+        if(ask_yes("'" + target_path + "' already exists, do you want to overwrite it. (y/n)")):
             return target_path
             
         print("Enter Different Name? (leave empty for aborting operation)")
@@ -39,11 +44,7 @@ def handle_if_file_conflict(target_path):
 
     return target_path
 
-def install(source_path, new_name = None):
-
-    if(new_name is None):
-        new_name = os.path.splitext(os.path.basename(source_path))[0]
-
+def get_bin_path():
     stored_notebook_path = get_notebook_path()
 
     if(stored_notebook_path is None):
@@ -51,7 +52,16 @@ def install(source_path, new_name = None):
         print("Please run 'rnmd --setup' to setup the notebook path and make sure that ~/.config/rnmd/config.json exists")
         return
 
-    notebook_bin_path = os.path.join(stored_notebook_path, "bin")
+    return os.path.join(stored_notebook_path, "bin")
+
+def install(source_path, new_name = None):
+
+    if(new_name is None):
+        new_name = os.path.splitext(os.path.basename(source_path))[0]
+
+    stored_notebook_path = get_notebook_path()
+
+    notebook_bin_path = get_bin_path()
     target_path = os.path.join(notebook_bin_path, new_name)
 
     target_path = handle_if_file_conflict(target_path)
@@ -67,4 +77,24 @@ def install(source_path, new_name = None):
     print("Installing proxy to target: " + target_path)
     rnmd.make_proxy.make_proxy(source_path, target_path, backup_path=backup_path , relative = True)
 
-    
+def remove_install(target_name):
+
+    notebook_bin_path = get_bin_path()
+    target_path = os.path.join(notebook_bin_path, target_name)
+
+    if(not os.path.exists(target_path)):
+        print("Target remove path " + target_path + " does not exist")
+        return
+
+    if(ask_yes("Are you sure you want to remove " + target_name + "? (y/n)")):
+        
+        os.remove(target_path)
+
+def list_installed():
+    notebook_bin_path = get_bin_path()
+    if(os.path.exists(notebook_bin_path)):
+
+        print("Printing installed markdown proxies: ")
+        proxy_names = os.listdir(notebook_bin_path)
+        for name in proxy_names:
+            print(name)
