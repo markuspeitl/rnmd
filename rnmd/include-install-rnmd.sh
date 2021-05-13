@@ -1,7 +1,4 @@
-
 RNMD_LOCATION=$(whereis rnmd)
-
-RNMD_LOCATION=""
 
 if [ -z "$RNMD_LOCATION" ]; then
     echo "Could not locate rnmd which is required to run this script."
