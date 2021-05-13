@@ -6,9 +6,12 @@ with open("README.md","r") as readme_file:
 setup(
     name='rnmd',
     version='0.0.1',
-    packages=['src'],
+    packages=['rnmd'],
+    include_package_data=True,
     python_requires='>=3',
-    scripts=['src/rnmd.py'],
+    entry_points={
+        'console_scripts':['rnmd = rnmd.rnmd:main']
+    },
     description='A runtime for executing interpreted code of markdown files and making them available from anywhere',
     long_description=long_description,
     long_description_content="text/markdown",

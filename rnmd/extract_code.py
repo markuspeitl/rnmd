@@ -10,7 +10,7 @@ def get_file_contents(path):
 def get_url_contents(url):
     return urllib.request.urlopen(url).read()
 
-def extract_script_from_doc(sourceUri):
+def extract_code_from_doc(sourceUri):
     
     documentation_contents = None
 
@@ -52,3 +52,15 @@ def extract_script_from_doc(sourceUri):
     code = ('\n\n').join(code_blocks)
     
     return code
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(
+        description="Extrace all code from markdown file"
+    )
+    parser.add_argument('source', help="Source of the documentation file, can be a path or an url")
+    arguments = parser.parse_args()
+    source = arguments.source
+
+    code = extract_code_from_doc(source)
+    print(code)
