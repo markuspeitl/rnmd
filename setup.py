@@ -1,11 +1,20 @@
 from setuptools import setup
 
+with open("README.md","r") as readme_file:
+    long_description = readme_file.read()
+
 setup(
-    name='rn_md',
+    name='rnmd',
     version='0.0.1',
-    description='',
-    py_modules=["rn_md"],
-    package_dir={'','src'},
+    packages=['src'],
+    python_requires='>=3',
+    scripts=['src/rnmd.py'],
+    description='A runtime for executing interpreted code of markdown files and making them available from anywhere',
+    long_description=long_description,
+    long_description_content="text/markdown",
+    author="Markus Peitl",
+    author_email='office@markuspeitl.com',
+    url='https://github.com/MarkusPeitl/rnmd',
     classifiers=[
         "Programming Language :: Python :: 3"
         "License :: ",

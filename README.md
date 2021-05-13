@@ -1,6 +1,8 @@
 # rnmd - markdown execution runtime
 
-Why? Execute code contained in mardown documentation.
+Why? Execute code contained in markdown documentation.
+
+Sadly i can not use rnmd in the project itself otherwise i would.
 
 The choice for using LGPL 2.1 is strategic so if i may stop developing the runtime
 it will still receive  bugfixes/improvements from entities using this software in their programs.

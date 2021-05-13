@@ -1,5 +1,5 @@
 import argparse
-from script_extractor import extract_script_from_doc
+import script_extractor
 
 parser = argparse.ArgumentParser(
     description="Compile markdown bash documentation to executable program scripts"
@@ -14,7 +14,7 @@ arguments = parser.parse_args()
 source = arguments.source
 target = arguments.target
 
-code = extract_script_from_doc(source)
+code = script_extractor.extract_script_from_doc(source)
 
 with open(target, "w+") as out_file:
     out_file.write(code)
