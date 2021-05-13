@@ -1,6 +1,5 @@
 import os
 
-
 from string import Template
 template = Template(
     """
@@ -11,24 +10,38 @@ template = Template(
     """
 )
 
-def make_proxy(source, target):
+debugging = False
+current_script_dir = os.path.dirname(__file__)
 
-    doc_path = os.path.abspath(source)
-    runner = "python3"
-    runtime_path = os.path.abspath("run_md.py")
+def make_proxy(source_path, target_path, relative=False, localInstall=False):
 
-    install_runner = "python3"
+    runner = ""
+    runtime_path = "rnmd"
+
+    if(localInstall):
+        runner = "python3 "
+        runtime_path = os.path.abspath(os.path.join(current_script_dir,"rnmd.py"))
+
+    doc_path = os.path.abspath(source_path)
+
+    if(relative):
+        #Relative path from proxy file to markdown doc
+        doc_path = os.path.relpath(doc_path, os.path.dirname(target_path));
+        #Has to be added in bash so that the path is resolved from the proxies location (and not the caller directory)
+        doc_path = os.path.join("`dirname $0`", doc_path)
+
+    install_runner = "python3 "
     installer_location = os.path.abspath("installer.sh")
 
-    with open(target, "w+") as out_file:
+    with open(target_path, "w+") as out_file:
 
         proxy_content = ""
-        proxy_content += install_runner + " " + installer_location + "\n"
-        proxy_content += runner + " " + runtime_path + " " + doc_path + "\n"
+        proxy_content += install_runner + installer_location + "\n"
+        proxy_content += runner + runtime_path + " " + doc_path + "\n"
 
         out_file.write(proxy_content)
 
-    print("Created proxy at: " + target)
+    print("Created proxy at: " + target_path)
 
 if __name__ == "__main__":
     import argparse

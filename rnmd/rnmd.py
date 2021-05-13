@@ -15,7 +15,7 @@ def main():
         possible to be a path or and URL")
     parser.add_argument('-p','--proxy', help="Create proxy file/fake binary to execute source document at location")
     parser.add_argument('-c','--compile', help="Compile to target file - for compiled languages")
-    parser.add_argument('-p','--print', help="Print the extracted code that would be run")
+    parser.add_argument('-e','--extract', help="Print the extracted code that would be run")
     parser.add_argument('-b','--block', help="Execute specific code blocks")
     parser.add_argument('-i','--install', help="Create an extensionless proxy for doc and install at a location inside path")
 
