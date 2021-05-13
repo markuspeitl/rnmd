@@ -25,4 +25,12 @@ if [ -z "$RNMD_LOCATION" ]; then
 fi
 
 # ---------- Proxy to Runtime and target document
+
+if [ ! -f "/home/pmarkus/repos/rnmd/notebook/test.md" ]; then
+    echo "The markdown file /home/pmarkus/repos/rnmd/notebook/test.md linked to by this proxy does not exist."
+    echo "Did you move the file -> if so please reinstall for the new path by: "
+    echo "'rnmd MARKDOWN_PATH --install SCRIPTNAME'"
+    exit -1
+fi
+
 rnmd /home/pmarkus/repos/rnmd/notebook/test.md
