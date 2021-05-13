@@ -1,0 +1,3 @@
+echo "test was executed successfully!"
+
+echo "second line executed - end!"

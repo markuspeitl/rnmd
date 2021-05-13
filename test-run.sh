@@ -1,1 +1,1 @@
-python3 src/run_md.py notebook/test.md
+python3 rnmd.py notebook/test.md

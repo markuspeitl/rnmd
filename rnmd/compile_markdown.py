@@ -1,14 +1,17 @@
+import os
 import argparse
 import rnmd.extract_code
 
-def compile_markdown(source, target):
+def compile_markdown(source_path, target_path):
 
-    code = rnmd.extract_code.extract_code_from_doc(source)
+    code = rnmd.extract_code.extract_code_from_doc(source_path)
 
-    with open(target, "w+") as out_file:
+    with open(target_path, "w+") as out_file:
         out_file.write(code)
 
-    print("Compiled markdown to " + out_file)
+    os.system("chmod +x " + target_path)
+
+    print("Compiled markdown to " + target_path)
 
 if __name__ == "__main__":
     import argparse
@@ -23,4 +26,4 @@ if __name__ == "__main__":
     source = arguments.source
     target = arguments.target
 
-    code = compile_markdown(source,target)
+    code = compile_markdown(source, target)
