@@ -66,11 +66,12 @@ def main():
     elif(arguments.backup):
         rnmd.install_markdown.backup_document(doc_source)
     elif(arguments.backupto):
-        backup_location = rnmd.install_markdown.backup_document_to(doc_source, arguments.backupto)
-        if(backup_location is None):
-            print("Failed to back up " + doc_source + " to dir " + arguments.backupto +"\n Make sure both paths exist")
-        else:
-            print("Successfully backed up " + doc_source + " to dir " + arguments.backupto)
+        if(doc_source is not arguments.backupto):
+            backup_location = rnmd.install_markdown.backup_document_to(doc_source, arguments.backupto)
+            if(backup_location is None):
+                print("Failed to back up " + doc_source + " to dir " + arguments.backupto +"\n Make sure both paths exist")
+            else:
+                print("Successfully backed up " + doc_source + " to dir " + arguments.backupto)
     elif(arguments.check):
         print(document_exists(doc_source))
     elif(arguments.proxy):
