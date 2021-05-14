@@ -15,7 +15,7 @@ with open(installer_file_path, "r") as installer_file:
 #TODO replace by platform independent python script instead
 proxy_template = Template(template_string)
 
-def make_proxy(source_path, target_path, backup_path = None, relative = False, localInstall = False):
+def make_proxy(source_path, target_path, backup_path = None, relative = False, localInstall = False, update_backup = False):
 
     #shebang = "#!/usr/bin/env python3"
     shebang = "#!/usr/bin/env bash"
@@ -28,10 +28,12 @@ def make_proxy(source_path, target_path, backup_path = None, relative = False, l
         runtime_path = os.path.abspath(os.path.join(current_script_dir,"rnmd.py"))
 
     markdown_doc_path = doc_tools.get_abs_document_location(source_path)
+    backup_doc_path = doc_tools.get_abs_document_location(backup_path)
 
     if(relative):
         #Relative path from proxy file to markdown doc
         markdown_doc_path = doc_tools.get_rel_shell_path(markdown_doc_path,target_path)
+        backup_doc_path = doc_tools.get_rel_shell_path(backup_path,target_path)
 
     #if(backup_path is None):
     #    backup_path = ""
@@ -42,7 +44,8 @@ def make_proxy(source_path, target_path, backup_path = None, relative = False, l
         'runner': runner, 
         'runtime_path': runtime_path, 
         'markdown_doc_path': markdown_doc_path,
-        'backup_path': backup_path
+        'backup_path': backup_doc_path,
+        'update_backup': update_backup
     }
     proxy_string = proxy_template.substitute(**substitution_dict)
 

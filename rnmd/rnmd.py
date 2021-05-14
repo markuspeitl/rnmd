@@ -27,6 +27,7 @@ def main():
     group.add_argument('-i','--install', help="Create an extensionless proxy for doc and install at a notbook location inside path")
     group.add_argument('-ip','--installportable', help="Moves the consumed document into the notebook and links the proxy so that the notbook can be transferred to another machine without breaking links")
     group.add_argument('-iq','--installquick', action="store_true", help="Installs the document to the notebook with the same name as the document")
+    group.add_argument('-rn','--rename', help="Rename installed global proxy script")
     group.add_argument('-p','--proxy', help="Create proxy file/fake binary to execute source document at location")
     group.add_argument('-b','--blocks', nargs='+', type=int, help="Execute specific code blocks")
     group.add_argument('-e','--extract', action="store_true", help="Print the extracted code that would be run")
@@ -37,7 +38,9 @@ def main():
     group.add_argument('-ba','--backup', action="store_true", help="Create a backup of the specified document")
     group.add_argument('-bt','--backupto', help="Create a backup of the source document at the backupto specified location")
 
-    #parser.add_argument('-s','--silent', help="Do not print status updates to std out")
+    #parser.add_argument('-s','--silent', action="store_true", help="Do not print status updates or exceptions to std out")
+    #parser.add_argument('-f','--force', action="store_true", help="Force operation without asking in case of conflicts")
+    #parser.add_argument('-a','--add', action="store_true", help="Add local notebook to path")
 
     # Parse the arguments
     arguments = parser.parse_args()
@@ -61,7 +64,7 @@ def main():
     elif(arguments.install):
         rnmd.install_markdown.install(doc_source, arguments.install)
     elif(arguments.installportable):
-        rnmd.install_markdown.install_portable(doc_source, arguments.install)
+        rnmd.install_markdown.install_portable(doc_source, arguments.installportable)
     elif(arguments.installquick):
         rnmd.install_markdown.install(doc_source)
     elif(arguments.remove):
@@ -70,7 +73,7 @@ def main():
         rnmd.install_markdown.backup_document(doc_source)
     elif(arguments.backupto):
         if(doc_source is not arguments.backupto):
-            backup_location = rnmd.install_markdown.backup_document_to(doc_source, arguments.backupto)
+            backup_location = rnmd.install_markdown.copy_document_to(doc_source, arguments.backupto)
             if(backup_location is None):
                 print("Failed to back up " + doc_source + " to dir " + arguments.backupto +"\n Make sure both paths exist")
             else:
