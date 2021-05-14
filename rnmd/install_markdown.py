@@ -1,23 +1,42 @@
 import os
 import rnmd.make_proxy
 import rnmd.configuration_manager
-from rnmd.util.extract_document_content import extract_document_content
+from rnmd.util.extract_document_content import extract_document_content, document_exists
 
 
 backup_mode_enabled = True
 backup_web_mds = True
 
-def backup_document(source_location):
+def backup_document(source_doc_location):
+
+    if(not document_exists(source_doc_location)):
+        return None
 
     backup_path = rnmd.configuration_manager.get_backup_path()
     if(backup_path is None):
         return None
 
-    target_file_path = os.path.join(backup_path, os.path.basename(source_location))
+    return backup_document_to(source_doc_location, backup_path)
 
-    source_doc_contents = extract_document_content(source_location)
+#Target patch = directory or file
+def backup_document_to(source_doc_location, target_path):
 
+    if(not document_exists(source_doc_location)):
+        return None
+
+    source_doc_contents = extract_document_content(source_doc_location)
     if(source_doc_contents is None):
+        return None
+
+    path_tuple = os.path.splitext(target_path)
+    if(path_tuple is not None and len(path_tuple) > 1 and len(path_tuple[1]) > 0):
+        target_file_path = target_path
+        target_dir_path = os.path.dirname(target_path)
+    else:
+        target_file_path = os.path.join(target_path, os.path.basename(source_doc_location))
+        target_dir_path = target_path
+        
+    if(not os.path.exists(target_dir_path) or not os.path.isdir(target_dir_path)):
         return None
 
     with open(target_file_path,"w+") as target_file:

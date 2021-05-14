@@ -7,15 +7,14 @@ $installer_code
 
 # ---------- Proxy to Runtime and target document
 
-if [ ! -f "$markdown_doc_path" ]; then
+DOC_EXISTS=$$(rnmd $markdown_doc_path --check)
+if [ ! $$DOC_EXISTS = "True" ]; then
     echo "The markdown file $markdown_doc_path linked to by this proxy does not exist."
     echo "Did you move the file -> if so please reinstall for the new path by: "
-    echo "'rnmd MARKDOWN_PATH --install SCRIPTNAME'"
+    echo "'rnmd NEW_MARKDOWN_PATH --install SCRIPTNAME'"
     exit -1
 fi
 
-if [ ! -z "$backup_path" ]; then
-    cp "$markdown_doc_path" "$backup_path"
-fi
+$runner$runtime_path "$markdown_doc_path" --backupto "$backup_path"
 
-$runner$runtime_path $markdown_doc_path
+$runner$runtime_path "$markdown_doc_path"

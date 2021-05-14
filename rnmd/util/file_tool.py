@@ -6,5 +6,5 @@ def get_file_contents(path):
 
     return documentation_contents
 
-def file_exists(path):
+def is_file_exists(path):
     return os.path.exists(path) and os.path.isfile(path)

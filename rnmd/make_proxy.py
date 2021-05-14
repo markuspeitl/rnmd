@@ -1,5 +1,5 @@
 import os
-
+import rnmd.util.extract_document_content as doc_tools
 from string import Template
 
 current_script_dir = os.path.dirname(__file__)
@@ -27,16 +27,14 @@ def make_proxy(source_path, target_path, backup_path = None, relative = False, l
         runner = "python3 "
         runtime_path = os.path.abspath(os.path.join(current_script_dir,"rnmd.py"))
 
-    markdown_doc_path = os.path.abspath(source_path)
+    markdown_doc_path = doc_tools.get_abs_document_location(source_path)
 
     if(relative):
         #Relative path from proxy file to markdown doc
-        markdown_doc_path = os.path.relpath(markdown_doc_path, os.path.dirname(target_path));
-        #Has to be added in bash so that the path is resolved from the proxies location (and not the caller directory)
-        markdown_doc_path = os.path.join("`dirname $0`", markdown_doc_path)
+        markdown_doc_path = doc_tools.get_rel_shell_path(markdown_doc_path,target_path)
 
-    if(backup_path is None):
-        backup_path = ""
+    #if(backup_path is None):
+    #    backup_path = ""
 
     substitution_dict = { 
         'shebang':shebang,

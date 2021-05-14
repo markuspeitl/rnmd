@@ -33,7 +33,10 @@ def main():
     group.add_argument('-r','--remove', action="store_true", help="Remove installed markdown execution proxy")
     group.add_argument('-l','--list', action="store_true", help="List all markdown proxies installed in notebook")
     group.add_argument('-check','--check', action="store_true", help="Check if the specified documents exists")
-    group.add_argument('-backup','--backup', action="store_true", help="Create a backup of the specified document")
+    group.add_argument('-ba','--backup', action="store_true", help="Create a backup of the specified document")
+    group.add_argument('-bt','--backupto', help="Create a backup of the source document at the backupto specified location")
+
+    #parser.add_argument('-s','--silent', help="Do not print status updates to std out")
 
     # Parse the arguments
     arguments = parser.parse_args()
@@ -51,7 +54,6 @@ def main():
     if(arguments.version):
         print(rnmd.__version__)
         exit()
-
     if(doc_source is None):
         print("rnmd.py: error: the following arguments are required: 'source' or '--setup'")
         exit()
@@ -63,6 +65,12 @@ def main():
         rnmd.install_markdown.remove_install(doc_source)
     elif(arguments.backup):
         rnmd.install_markdown.backup_document(doc_source)
+    elif(arguments.backupto):
+        backup_location = rnmd.install_markdown.backup_document_to(doc_source, arguments.backupto)
+        if(backup_location is None):
+            print("Failed to back up " + doc_source + " to dir " + arguments.backupto +"\n Make sure both paths exist")
+        else:
+            print("Successfully backed up " + doc_source + " to dir " + arguments.backupto)
     elif(arguments.check):
         print(document_exists(doc_source))
     elif(arguments.proxy):
