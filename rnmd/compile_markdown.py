@@ -2,9 +2,11 @@ import os
 import argparse
 import rnmd.extract_code
 
-def compile_markdown(source_path, target_path):
+def compile_markdown(source_location, target_path):
 
-    code = rnmd.extract_code.extract_code_from_doc(source_path)
+    code = rnmd.extract_code.extract_code_from_doc(source_location)
+
+    code = "#!/usr/bin/env bash\n" + code
 
     with open(target_path, "w+") as out_file:
         out_file.write(code)

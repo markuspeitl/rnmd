@@ -1,13 +1,20 @@
 import os
 import rnmd.extract_code
+import rnmd.compile_markdown
 
-def run_markdown(source):
-    code = rnmd.extract_code.extract_code_from_doc(source)
+default_compile_dir="/tmp/rnmd"
+os.makedirs(default_compile_dir, exist_ok=True)
 
-    print("PRINTING CODE:")
-    print(code+"\n")
-    print("RUNNING CODE:\n")
-    os.system(code)
+def run_markdown(source, args):
+
+    temp_compile_path = os.path.join(default_compile_dir, os.path.basename(source))
+
+    rnmd.compile_markdown.compile_markdown(source, temp_compile_path)
+
+    all_args = [temp_compile_path] + args
+    command = (" ").join(all_args)
+    
+    os.system(command)
 
 
 if __name__ == "__main__":

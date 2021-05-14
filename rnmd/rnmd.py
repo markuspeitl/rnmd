@@ -30,6 +30,7 @@ def main():
     group.add_argument('-rn','--rename', help="Rename installed global proxy script")
     group.add_argument('-p','--proxy', help="Create proxy file/fake binary to execute source document at location")
     group.add_argument('-b','--blocks', nargs='+', type=int, help="Execute specific code blocks")
+    #group.add_argument('-rl','--runlabel', nargs='+', type=int, help="Run block by its names (first comment of each block)")
     group.add_argument('-e','--extract', action="store_true", help="Print the extracted code that would be run")
     group.add_argument('-c','--compile', help="Compile to target file - for compiled languages")
     group.add_argument('-r','--remove', action="store_true", help="Remove installed markdown execution proxy")
@@ -37,6 +38,7 @@ def main():
     group.add_argument('-check','--check', action="store_true", help="Check if the specified documents exists")
     group.add_argument('-ba','--backup', action="store_true", help="Create a backup of the specified document")
     group.add_argument('-bt','--backupto', help="Create a backup of the source document at the backupto specified location")
+    group.add_argument('-a','--args',  nargs='*', help="Arguments to pass to the runtime")
 
     #parser.add_argument('-s','--silent', action="store_true", help="Do not print status updates or exceptions to std out")
     #parser.add_argument('-f','--force', action="store_true", help="Force operation without asking in case of conflicts")
@@ -93,4 +95,4 @@ def main():
         compile_target = arguments.compile
         rnmd.compile_markdown.compile_markdown(doc_source, compile_target)
     else:
-        rnmd.runtime.run_markdown(doc_source)
+        rnmd.runtime.run_markdown(doc_source, arguments.args)

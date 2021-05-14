@@ -18,7 +18,7 @@ if [ ! $$DOC_EXISTS = "True" ]; then
 
     read -p "Do you want to try to run the backup instead? (y/n)" answer
     if [ $$answer = "y" ]; then
-       $runner$runtime_path "$$BACKUP_DOC"
+       $runner$runtime_path "$$BACKUP_DOC" --args "$$@"
     fi
 
     exit -1
@@ -28,4 +28,4 @@ if [ "$update_backup" = "True" ]; then
     $runner$runtime_path "$$TARGET_DOC" --backupto "$$BACKUP_DOC"
 fi
 
-$runner$runtime_path "$$TARGET_DOC"
+$runner$runtime_path "$$TARGET_DOC" --args "$$@"
