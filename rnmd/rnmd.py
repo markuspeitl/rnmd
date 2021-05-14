@@ -24,8 +24,9 @@ def main():
     
     group = parser.add_mutually_exclusive_group()
     
-    group.add_argument('-i','--install', help="Create an extensionless proxy for doc and install at a location inside path")
-    group.add_argument('-qi','--quickinstall', action="store_true", help="Installs the document to the notebook with the same name as the document")
+    group.add_argument('-i','--install', help="Create an extensionless proxy for doc and install at a notbook location inside path")
+    group.add_argument('-ip','--installportable', help="Moves the consumed document into the notebook and links the proxy so that the notbook can be transferred to another machine without breaking links")
+    group.add_argument('-iq','--installquick', action="store_true", help="Installs the document to the notebook with the same name as the document")
     group.add_argument('-p','--proxy', help="Create proxy file/fake binary to execute source document at location")
     group.add_argument('-b','--blocks', nargs='+', type=int, help="Execute specific code blocks")
     group.add_argument('-e','--extract', action="store_true", help="Print the extracted code that would be run")
@@ -59,7 +60,9 @@ def main():
         exit()
     elif(arguments.install):
         rnmd.install_markdown.install(doc_source, arguments.install)
-    elif(arguments.quickinstall):
+    elif(arguments.installportable):
+        rnmd.install_markdown.install_portable(doc_source, arguments.install)
+    elif(arguments.installquick):
         rnmd.install_markdown.install(doc_source)
     elif(arguments.remove):
         rnmd.install_markdown.remove_install(doc_source)

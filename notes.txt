@@ -15,3 +15,7 @@
 #2. Check installed (whereis)
 #3. Check if installer is somewhere
 #4. Check online
+
+
+
+# TODO replace None returns by exceptions

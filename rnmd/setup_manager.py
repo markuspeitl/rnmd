@@ -99,13 +99,16 @@ def start_setup_process():
     selected_notebook_path = prompt_notebook_location();
     selected_bin_path = os.path.join(selected_notebook_path, defaults.default_rel_script_path)
     selected_doc_path = os.path.join(selected_notebook_path, defaults.default_rel_backup_doc_path)
+    selected_portable_path = os.path.join(selected_notebook_path, defaults.default_rel_portable_doc_path)
     os.makedirs(selected_notebook_path, exist_ok=True)
     os.makedirs(selected_bin_path, exist_ok=True)
     os.makedirs(selected_doc_path, exist_ok=True)
+    os.makedirs(selected_portable_path, exist_ok=True)
     print("Storing notebook location in rnmd configuration at: " + rnmd.configuration_manager.get_config_path())
     rnmd.configuration_manager.set(defaults.notebook_key, selected_notebook_path)
     rnmd.configuration_manager.set(defaults.bin_key, selected_bin_path)
     rnmd.configuration_manager.set(defaults.backup_key, selected_doc_path)
+    rnmd.configuration_manager.set(defaults.portable_key, selected_portable_path)
 
     print("\nYou chose: " + selected_notebook_path + " as your notebook path.\n\n")
 

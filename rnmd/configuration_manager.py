@@ -69,6 +69,15 @@ def get_bin_path():
         
     return stored_bin_path
 
+def get_portable_path():
+    stored_portable_path = get_config_dir_entry(defaults.portable_key)
+
+    if(stored_portable_path is None):
+        print("Can not portable install document before a notebook path is defined!")
+        print("Please run 'rnmd --setup' to setup the notebook path and make sure that ~/.config/rnmd/config.json exists")
+        
+    return stored_portable_path
+
 def get_backup_path():
     backup_path = get_config_dir_entry(defaults.backup_key)
 
