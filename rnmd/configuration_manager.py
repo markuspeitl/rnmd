@@ -1,5 +1,6 @@
 import os
 import json
+import rnmd.config.defaults as defaults
 
 configuration_dir_path = os.path.join(os.path.expanduser('~'), ".config", "rnmd")
 configuration_file_path = os.path.join(configuration_dir_path, "config.json")
@@ -36,3 +37,43 @@ def get(key):
     if(key not in config):
         return None
     return config[key]
+
+
+# Get specific directories
+
+def get_config_dir_entry(key):
+    dir_path = get(key)
+
+    if(dir_path is None):
+        return None
+
+    expanded_path = os.path.expanduser(dir_path)
+    os.makedirs(dir_path, exist_ok=True)
+    return expanded_path
+
+def get_notebook_path():
+    stored_notebook_path = get_config_dir_entry(defaults.notebook_key)
+
+    if(stored_notebook_path is None):
+        print("Can not get notebook path before it is defined!")
+        print("Please run 'rnmd --setup' to setup the notebook path and make sure that ~/.config/rnmd/config.json exists")
+        
+    return stored_notebook_path
+
+def get_bin_path():
+    stored_bin_path = get_config_dir_entry(defaults.bin_key)
+
+    if(stored_bin_path is None):
+        print("Can not install document before a notebook path is defined!")
+        print("Please run 'rnmd --setup' to setup the notebook path and make sure that ~/.config/rnmd/config.json exists")
+        
+    return stored_bin_path
+
+def get_backup_path():
+    backup_path = get_config_dir_entry(defaults.backup_key)
+
+    if(backup_path is None):
+        print("Can not backup document before a notebook path is defined!")
+        print("Please run 'rnmd --setup' to setup the notebook path and make sure that ~/.config/rnmd/config.json exists")
+        
+    return backup_path

@@ -1,23 +1,10 @@
-import urllib.request
+from rnmd.util.extract_document_content import extract_document_content
 
 delimiterToken="```"
 
-def get_file_contents(path):
-    with open(path, "r") as documentation_file:
-        documentation_contents = documentation_file.read()
-    return documentation_contents
-
-def get_url_contents(url):
-    return urllib.request.urlopen(url).read()
-
 def extract_code_from_doc(sourceUri):
     
-    documentation_contents = None
-
-    if("http" in sourceUri):
-        documentation_contents = get_url_contents(sourceUri)
-    else:
-        documentation_contents = get_file_contents(sourceUri)
+    documentation_contents = extract_document_content(sourceUri)
 
     if(documentation_contents is None):
         raise Exception("Could not read documentation file from: " + sourceUri)

@@ -7,6 +7,7 @@ import rnmd.compile_markdown
 import rnmd.extract_code
 import rnmd.setup_manager
 import rnmd.install_markdown
+from rnmd.util.extract_document_content import document_exists
 import rnmd
 
 def main():
@@ -31,6 +32,8 @@ def main():
     group.add_argument('-c','--compile', help="Compile to target file - for compiled languages")
     group.add_argument('-r','--remove', action="store_true", help="Remove installed markdown execution proxy")
     group.add_argument('-l','--list', action="store_true", help="List all markdown proxies installed in notebook")
+    group.add_argument('-check','--check', action="store_true", help="Check if the specified documents exists")
+    group.add_argument('-backup','--backup', action="store_true", help="Create a backup of the specified document")
 
     # Parse the arguments
     arguments = parser.parse_args()
@@ -58,6 +61,10 @@ def main():
         rnmd.install_markdown.install(doc_source)
     elif(arguments.remove):
         rnmd.install_markdown.remove_install(doc_source)
+    elif(arguments.backup):
+        rnmd.install_markdown.backup_document(doc_source)
+    elif(arguments.check):
+        print(document_exists(doc_source))
     elif(arguments.proxy):
         proxy_target = arguments.proxy
         rnmd.make_proxy.make_proxy(doc_source, proxy_target)

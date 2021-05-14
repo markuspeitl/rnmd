@@ -1,19 +1,18 @@
 from sys import platform
 import os
 import rnmd.configuration_manager
-
-default_notebook_path = os.path.join(os.path.expanduser('~'),"rndb-notebook")
+import rnmd.config.defaults as defaults
 
 def input_confirmed(input):
     return input == "y"
 
 def prompt_notebook_location():
     
-    print("The default notebook markdown proxy code installation location is: " + default_notebook_path + "\n")
+    print("The default notebook markdown proxy code installation location is: " + defaults.default_notebook_path + "\n")
     print("Do you want to keep it that way? (y/n)")
     answer = input()
     if(input_confirmed(answer)):
-        return default_notebook_path
+        return defaults.default_notebook_path
 
     print("Please enter the path you want to choose: \n")
     entered_path = os.path.expanduser(input())
@@ -98,11 +97,15 @@ def start_setup_process():
         return
 
     selected_notebook_path = prompt_notebook_location();
-    if not os.path.exists(selected_notebook_path):
-        os.makedirs(selected_notebook_path, exist_ok=True)
-
+    selected_bin_path = os.path.join(selected_notebook_path, defaults.default_rel_script_path)
+    selected_doc_path = os.path.join(selected_notebook_path, defaults.default_rel_backup_doc_path)
+    os.makedirs(selected_notebook_path, exist_ok=True)
+    os.makedirs(selected_bin_path, exist_ok=True)
+    os.makedirs(selected_doc_path, exist_ok=True)
     print("Storing notebook location in rnmd configuration at: " + rnmd.configuration_manager.get_config_path())
-    rnmd.configuration_manager.set("NOTE_BOOK_DIR", selected_notebook_path)
+    rnmd.configuration_manager.set(defaults.notebook_key, selected_notebook_path)
+    rnmd.configuration_manager.set(defaults.bin_key, selected_bin_path)
+    rnmd.configuration_manager.set(defaults.backup_key, selected_doc_path)
 
     print("\nYou chose: " + selected_notebook_path + " as your notebook path.\n\n")
 
