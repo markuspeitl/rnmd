@@ -90,9 +90,10 @@ def main():
     elif(arguments.blocks):
         rnmd.runtime.run_markdown(doc_source)
     elif(arguments.extract):
-        code = rnmd.extract_code.extract_code_from_doc(doc_source)
+        code, language = rnmd.extract_code.extract_code_from_doc(doc_source)
         print("Code extracted from file " + doc_source + ": \n")
         print(code)
+        print("detected language: " + language)
     elif(arguments.compile):
         compile_target = arguments.compile
         rnmd.compile_markdown.compile_markdown(doc_source, compile_target)
@@ -116,12 +117,12 @@ def backup_to(source_doc, target_file_dir):
 
 def run_proxy(doc_path, backup_path, args, command = "rnmd", update_backup = False):
 
-    print("Start run proxy process:")
-    print(doc_path)
-    print(backup_path)
-    print(args)
-    print(command)
-    print(update_backup)
+    #print("Start run proxy process:")
+    #print(doc_path)
+    #print(backup_path)
+    #print(args)
+    #print(command)
+    #print(update_backup)
 
     if(check_exists(doc_path)):
 

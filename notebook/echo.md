@@ -1,12 +1,12 @@
 ## Testing the parsing capabilities of rnmd
 
-```shell
+```bash
 ARG1=$1
 echo "Echo back of input: $ARG1"
 ```
 
 # dsfgishdgoi
 
-```shell
+```bash
 echo "second line executed - end!"
 ```

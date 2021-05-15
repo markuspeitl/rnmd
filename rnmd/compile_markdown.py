@@ -4,9 +4,17 @@ import rnmd.extract_code
 
 def compile_markdown(source_location, target_path):
 
-    code = rnmd.extract_code.extract_code_from_doc(source_location)
+    code, language = rnmd.extract_code.extract_code_from_doc(source_location)
 
-    code = "#!/usr/bin/env bash\n" + code
+    shebang = ""
+    if("bash" in language):
+        shebang = "#!/usr/bin/env bash"
+    elif("python" in language):
+        shebang = "#!/usr/bin/env python"
+    elif("js" in language):
+        shebang = "#!/usr/bin/env node"
+
+    code = shebang + "\n" + code
 
     with open(target_path, "w+") as out_file:
         out_file.write(code)

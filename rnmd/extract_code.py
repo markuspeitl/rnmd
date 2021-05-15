@@ -14,6 +14,7 @@ def extract_code_from_doc(sourceUri):
 
     code_block_lines = []
 
+    language = ""
     startindex = -1
     endindex = -1
     for index in range(0, len(lines)):
@@ -27,6 +28,7 @@ def extract_code_from_doc(sourceUri):
 
         if(startindex != -1 and endindex != -1):
             code_block_lines.append(lines[startindex+1:endindex])
+            language = lines[startindex]
             startindex = -1
             endindex = -1
 
@@ -39,7 +41,10 @@ def extract_code_from_doc(sourceUri):
 
     code = ('\n\n').join(code_blocks)
     
-    return code
+    language = language.replace("```","")
+
+    #print(code)
+    return code, language
 
 if __name__ == "__main__":
     import argparse

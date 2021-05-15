@@ -14,7 +14,7 @@ mode_options = None
 def backup_document(source_doc_location):
 
     if(not document_exists(source_doc_location)):
-        raise Exception("Invalid Path: Can not Wback up document that does not exist: " + source_doc_location)
+        raise Exception("Invalid Path: Can not back up document that does not exist: " + source_doc_location)
 
     backup_path = rnmd.configuration_manager.get_backup_path()
     if(backup_path is None):
