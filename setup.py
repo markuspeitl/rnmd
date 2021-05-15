@@ -27,7 +27,7 @@ setup(
         "Topic :: Software Development :: Documentation",
         "Topic :: Text Processing :: Markup :: Markdown",
     ],
-    install_requires=["argparse", "sys", "os", "requests"],
+    install_requires=["argparse", "requests"],
     entry_points = {
         'console_scripts':['rnmd = rnmd.rnmd:main']
     },
