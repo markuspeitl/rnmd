@@ -29,8 +29,16 @@ def make_proxy(source_path, target_path, backup_path = None, relative = False, l
 
     #Make it possible to create proxies for plain bash scripts
     path_parts = os.path.splitext(os.path.basename(source_path))
-    if(path_parts is not None and len(path_parts) > 0 and path_parts[1] == ".sh"):
-        runtime_path = "bash"
+    if(path_parts is not None and len(path_parts) > 0):
+        if(path_parts[1] == ".sh"):
+            runtime_path = "bash"
+        elif(path_parts[1] == ".py"):
+            runtime_path = "python3"
+        elif(path_parts[1] == ".js"):
+            runtime_path = "node"
+        elif(path_parts[1] == ".ts"):
+            runtime_path = "ts-node"
+
 
     markdown_doc_path = doc_tools.get_abs_document_location(source_path)
     backup_doc_path = doc_tools.get_abs_document_location(backup_path)
