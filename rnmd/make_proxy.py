@@ -1,7 +1,9 @@
 import os
 import rnmd.util.extract_document_content as doc_tools
 from string import Template
+from rnmd.config.mode_printer import print_if
 
+mode_options = None
 current_script_dir = os.path.dirname(__file__)
 installer_file_path = os.path.join(current_script_dir,"include-install-rnmd.sh")
 template_file_path = os.path.join(current_script_dir,"proxy-template.txt")
@@ -67,7 +69,7 @@ def make_proxy(source_path, target_path, backup_path = None, relative = False, l
 
     os.system("chmod +x " + target_path)
 
-    print("Created proxy at: " + target_path)
+    print_if("Created proxy at: " + target_path, mode_options)
 
 if __name__ == "__main__":
     import argparse

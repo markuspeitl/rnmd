@@ -9,6 +9,8 @@ import rnmd.setup_manager
 import rnmd.install_markdown
 from rnmd.util.extract_document_content import document_exists
 import rnmd
+import rnmd.config.mode_options as mode_options
+from rnmd.config.mode_printer import print_if
 
 def main():
 
@@ -40,14 +42,18 @@ def main():
     group.add_argument('-bt','--backupto', help="Create a backup of the source document at the backupto specified location")
     group.add_argument('-a','--args',  nargs='*', help="Arguments to pass to the runtime")
 
-    #parser.add_argument('-s','--silent', action="store_true", help="Do not print status updates or exceptions to std out")
-    #parser.add_argument('-f','--force', action="store_true", help="Force operation without asking in case of conflicts")
+    parser.add_argument('-s','--silent', action="store_true", help="Do not print status updates or exceptions to std out")
+    parser.add_argument('-f','--force', action="store_true", help="Force operation without asking in case of conflicts")
     #parser.add_argument('-a','--add', action="store_true", help="Add local notebook to path")
 
     # Parse the arguments
     arguments = parser.parse_args()
-
     doc_source = arguments.source
+
+    #For silent and force
+    mode_options.parse(arguments)
+    rnmd.install_markdown.mode_options = mode_options
+    rnmd.make_proxy.mode_options = mode_options
 
     #ps | grep `echo $$` | awk '{ print $4 }'
 
@@ -77,9 +83,9 @@ def main():
         if(doc_source is not arguments.backupto):
             backup_location = rnmd.install_markdown.copy_document_to(doc_source, arguments.backupto)
             if(backup_location is None):
-                print("Failed to back up " + doc_source + " to dir " + arguments.backupto +"\n Make sure both paths exist")
+                print_if("Failed to back up " + doc_source + " to dir " + arguments.backupto +"\n Make sure both paths exist", mode_options)
             else:
-                print("Successfully backed up " + doc_source + " to dir " + arguments.backupto)
+                print_if("Successfully backed up " + doc_source + " to dir " + arguments.backupto, mode_options)
     elif(arguments.check):
         print(document_exists(doc_source))
     elif(arguments.proxy):

@@ -16,7 +16,6 @@ def run_markdown(source, args):
     
     os.system(command)
 
-
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(

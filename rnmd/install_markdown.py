@@ -4,10 +4,12 @@ import rnmd.make_proxy
 import rnmd.configuration_manager
 from rnmd.util.extract_document_content import extract_document_content, document_exists
 from rnmd.util.file_tool import is_file_exists
+from rnmd.config.mode_printer import print_if
 
 backup_mode_enabled = True
 backup_web_mds = True
 delete_portable_src = False
+mode_options = None
 
 def backup_document(source_doc_location):
 
@@ -40,7 +42,7 @@ def valid_full_path_or_join(file_or_dir_path, join_file_name):
     return target_file_path
 
 #Target patch = directory path or full file path
-def copy_document_to(source_doc_location, target_path):
+def copy_document_to(source_doc_location, target_path, options = None):
 
     if(not document_exists(source_doc_location)):
         raise Exception("Invalid Path: Can not copy document that does not exist: " + source_doc_location)
@@ -76,6 +78,9 @@ def move_document_to_portable(source_doc_location):
     return move_document_to(source_doc_location, notebook_portable_path)
 
 def ask_yes(text):
+    if(mode_options.force):
+        return True
+
     print(text)
     answer = input()
     if(answer == "y"):
@@ -95,7 +100,7 @@ def choose_new_file_name(target_path, prompt):
     return handle_if_file_conflict(new_name_path)
 
 def handle_if_file_conflict(target_path):
-    print("Checking if: " + target_path + " has a conflict.")
+    #print("Checking if: " + target_path + " has a conflict.")
 
     target_dir_path = os.path.dirname(target_path)
     if(not os.path.exists(target_dir_path) or os.path.isfile(target_dir_path)):
@@ -135,9 +140,9 @@ def install(source_path, new_name = None):
     backup_path = None
     if(backup_mode_enabled):
         backup_path = backup_document(source_path)
-        print("Backed up document to : " + backup_path)
+        print_if("Backed up document to : " + backup_path, mode_options)
 
-    print("Installing proxy to target: " + target_path)
+    print_if("Installing proxy to target: " + target_path, mode_options)
     rnmd.make_proxy.make_proxy(source_path, target_path, backup_path=backup_path , relative = True, update_backup = True)
 
 def install_portable(source_path, new_name = None):
@@ -149,8 +154,8 @@ def install_portable(source_path, new_name = None):
     if(moved_document_path is None):
         raise Exception("Failed to move source document to portable directory in notebook")
 
-    print("Moved document to target : " + moved_document_path)
-    print("Installing proxy to target: " + target_path)
+    print_if("Moved document to target : " + moved_document_path, mode_options)
+    print_if("Installing proxy to target: " + target_path, mode_options)
     rnmd.make_proxy.make_proxy(moved_document_path, target_path, backup_path = source_path, relative = True, update_backup = False)
 
 def remove_install(target_name):
@@ -172,7 +177,7 @@ def list_installed():
     if(notebook_bin_path is None):
         raise Exception("Could not find notebook bin path in config.")
 
-    print("Printing installed markdown proxies: ")
+    print_if("Printing installed markdown proxies: ", mode_options)
     proxy_names = os.listdir(notebook_bin_path)
     for name in proxy_names:
         print(name)

@@ -13,7 +13,7 @@ def compile_markdown(source_location, target_path):
 
     os.system("chmod +x " + target_path)
 
-    print("Compiled markdown to " + target_path)
+    #print("Compiled markdown to " + target_path)
 
 if __name__ == "__main__":
     import argparse
