@@ -15,11 +15,9 @@ setup(
     long_description_content_type = "text/markdown",
     author = "Markus Peitl",
     author_email = 'office@markuspeitl.com',
-    license = "LGPL2",
     url = 'https://github.com/MarkusPeitl/rnmd',
     classifiers = [
-        "Programming Language :: Python :: 3"
-        "License :: ",
+        "Programming Language :: Python :: 3",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: GNU Lesser General Public License v2 (LGPLv2)",
         "Natural Language :: English",
