@@ -2,8 +2,6 @@
 
 Why? Execute code contained in markdown documentation.
 
-How to use:
-
 ## Running code contained in a markdown file
 
 Execute a markdown document using the rnmd markdown execution runtime.
