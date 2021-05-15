@@ -5,14 +5,10 @@ from rnmd.config.mode_printer import print_if
 
 mode_options = None
 current_script_dir = os.path.dirname(__file__)
-installer_file_path = os.path.join(current_script_dir,"include-install-rnmd.sh")
-template_file_path = os.path.join(current_script_dir,"proxy-template-py.txt")
+template_file_path = os.path.join(current_script_dir,"templates/proxy-template-py.txt")
 
 with open(template_file_path, "r") as template_file:
     template_string = template_file.read()
-
-with open(installer_file_path, "r") as installer_file:
-    installer_code = installer_file.read()
 
 #TODO replace by platform independent python script instead
 proxy_template = Template(template_string)
@@ -22,12 +18,10 @@ def make_proxy(source_path, target_path, backup_path = None, relative = False, l
     #shebang = "#!/usr/bin/env python3"
     shebang = "#!/usr/bin/env bash"
 
-    runner = ""
     runtime_path = "rnmd"
 
     if(localInstall):
-        runner = "python3 "
-        runtime_path = os.path.abspath(os.path.join(current_script_dir,"rnmd.py"))
+        runtime_path = "python3 " + os.path.abspath(os.path.join(current_script_dir,"rnmd.py"))
 
     #Make it possible to create proxies for plain bash scripts
     path_parts = os.path.splitext(os.path.basename(source_path))
@@ -50,14 +44,7 @@ def make_proxy(source_path, target_path, backup_path = None, relative = False, l
         markdown_doc_path = doc_tools.get_rel_document_location(markdown_doc_path,target_path)
         backup_doc_path = doc_tools.get_rel_document_location(backup_path,target_path)
 
-
-    #if(backup_path is None):
-    #    backup_path = ""
-
     substitution_dict = { 
-        'shebang':shebang,
-        'installer_code': installer_code, 
-        'runner': runner, 
         'runtime_path': runtime_path, 
         'markdown_doc_path': markdown_doc_path,
         'backup_path': backup_doc_path,
