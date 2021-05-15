@@ -12,7 +12,7 @@ setup(
     python_requires = '>=3',
     description = 'A runtime for executing interpreted code of markdown files and making them available from anywhere',
     long_description = long_description,
-    long_description_content = "text/markdown",
+    long_description_content_type = "text/markdown",
     author = "Markus Peitl",
     author_email = 'office@markuspeitl.com',
     license = "LGPL2",

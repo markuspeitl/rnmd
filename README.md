@@ -30,6 +30,22 @@ Currently **supported languages** are:
 - Multi Notebook management
 - Windows support (the proxies are right now bash on shell script and therefore not portable -> switch to python3)
 
+## Installation
+
+Can be easily installed from pypi with pip3.
+
+```bash
+pip3 install rnmd
+```
+
+## Running from source
+
+You can also alway clone the repo from [GitHub](https://github.com/MarkusPeitl/rnmd) and run rnmd with python.
+
+```bash
+python3 rnmd.py notebook/test.md
+```
+
 ## Running code contained in a markdown file
 
 Execute a markdown document using the rnmd markdown execution runtime.  
