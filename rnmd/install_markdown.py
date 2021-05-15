@@ -133,7 +133,7 @@ def find_bin_proxy_path_src(source_file_path, name_suggestion):
     target_path = find_bin_proxy_path(name_suggestion)
     return target_path
 
-def install(source_path, new_name = None):
+def install(source_path, new_name = None, local_instance = False):
     target_path = find_bin_proxy_path_src(source_path, new_name)
     if(target_path is None):
         raise Exception("Failed to find a path to save the proxy script to.")
@@ -144,9 +144,9 @@ def install(source_path, new_name = None):
         print_if("Backed up document to : " + backup_path, mode_options)
 
     print_if("Installing proxy to target: " + target_path, mode_options)
-    rnmd.make_proxy.make_proxy(source_path, target_path, backup_path=backup_path , relative = True, update_backup = True)
+    rnmd.make_proxy.make_proxy(source_path, target_path, backup_path=backup_path , relative = True, update_backup = True, local_instance = local_instance)
 
-def install_portable(source_path, new_name = None):
+def install_portable(source_path, new_name = None, local_instance = False):
     target_path = find_bin_proxy_path_src(source_path, new_name)
     if(target_path is None):
         raise Exception("Failed to find a path to save the proxy script to.")
@@ -157,7 +157,7 @@ def install_portable(source_path, new_name = None):
 
     print_if("Moved document to target : " + moved_document_path, mode_options)
     print_if("Installing proxy to target: " + target_path, mode_options)
-    rnmd.make_proxy.make_proxy(moved_document_path, target_path, backup_path = source_path, relative = True, update_backup = False)
+    rnmd.make_proxy.make_proxy(moved_document_path, target_path, backup_path = source_path, relative = True, update_backup = False, local_instance = local_instance)
 
 def remove_install(target_name):
 

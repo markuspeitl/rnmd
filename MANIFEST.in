@@ -1,2 +1,3 @@
 include rnmd/*.txt
 include rnmd/*.sh
+include rnmd/templates/*.txt

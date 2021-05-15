@@ -13,15 +13,13 @@ with open(template_file_path, "r") as template_file:
 #TODO replace by platform independent python script instead
 proxy_template = Template(template_string)
 
-def make_proxy(source_path, target_path, backup_path = None, relative = False, localInstall = False, update_backup = False):
-
-    #shebang = "#!/usr/bin/env python3"
-    shebang = "#!/usr/bin/env bash"
+def make_proxy(source_path, target_path, backup_path = None, relative = False, update_backup = False, local_instance = False):
 
     runtime_path = "rnmd"
 
-    if(localInstall):
-        runtime_path = "python3 " + os.path.abspath(os.path.join(current_script_dir,"rnmd.py"))
+    if(local_instance is not None and local_instance):
+        print("Localinstance")
+        runtime_path = "python3 " + os.path.abspath(os.path.join(current_script_dir, "rnmd.py"))
 
     #Make it possible to create proxies for plain bash scripts
     path_parts = os.path.splitext(os.path.basename(source_path))

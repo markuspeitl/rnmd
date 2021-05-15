@@ -45,6 +45,7 @@ def main():
 
     parser.add_argument('-s','--silent', action="store_true", help="Do not print status updates or exceptions to std out")
     parser.add_argument('-f','--force', action="store_true", help="Force operation without asking in case of conflicts")
+    parser.add_argument('-local','--local', action="store_true", help="For debugging write local instance of rnmd into proxy - for debugging")
     #parser.add_argument('-a','--add', action="store_true", help="Add local notebook to path")
 
     # Parse the arguments
@@ -70,11 +71,11 @@ def main():
         print("rnmd.py: error: the following arguments are required: 'source' or '--setup'")
         exit()
     elif(arguments.install):
-        rnmd.install_markdown.install(doc_source, arguments.install)
+        rnmd.install_markdown.install(doc_source, arguments.install, local_instance = arguments.local)
     elif(arguments.installportable):
-        rnmd.install_markdown.install_portable(doc_source, arguments.installportable)
+        rnmd.install_markdown.install_portable(doc_source, arguments.installportable, local_instance = arguments.local)
     elif(arguments.installquick):
-        rnmd.install_markdown.install(doc_source)
+        rnmd.install_markdown.install(doc_source, local_instance = arguments.local)
     elif(arguments.remove):
         rnmd.install_markdown.remove_install(doc_source)
     elif(arguments.backup):
@@ -85,7 +86,7 @@ def main():
         print(check_exists(doc_source))
     elif(arguments.proxy):
         proxy_target = arguments.proxy
-        rnmd.make_proxy.make_proxy(doc_source, proxy_target)
+        rnmd.make_proxy.make_proxy(doc_source, proxy_target, local_instance = arguments.local)
     elif(arguments.blocks):
         rnmd.runtime.run_markdown(doc_source)
     elif(arguments.extract):
@@ -115,12 +116,12 @@ def backup_to(source_doc, target_file_dir):
 
 def run_proxy(doc_path, backup_path, args, command = "rnmd", update_backup = False):
 
-    #print("Start run proxy process:")
-    #print(doc_path)
-    #print(backup_path)
-    #print(args)
-    #print(command)
-    #print(update_backup)
+    print("Start run proxy process:")
+    print(doc_path)
+    print(backup_path)
+    print(args)
+    print(command)
+    print(update_backup)
 
     if(check_exists(doc_path)):
 
@@ -130,11 +131,17 @@ def run_proxy(doc_path, backup_path, args, command = "rnmd", update_backup = Fal
             set_global_options()
             backup_to(doc_path, backup_path)
 
+        if(args is None):
+            args = []
+
         if(command == "rnmd"):
-            rnmd.runtime.run_markdown(doc_path, args)
+            
+            all_args = [command, doc_path] + ["--args"] + args
+            run_command = (" ").join(all_args)
+            print("Running command: " + run_command)
+            os.system(run_command)
+            #rnmd.runtime.run_markdown(doc_path, args)
         else:
-            if(args is None):
-                args = []
             all_args = [command, doc_path] + args
             run_command = (" ").join(all_args)
             print("Running command: " + run_command)
