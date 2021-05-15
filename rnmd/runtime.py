@@ -11,9 +11,13 @@ def run_markdown(source, args):
 
     rnmd.compile_markdown.compile_markdown(source, temp_compile_path)
 
-    all_args = [temp_compile_path] + args
-    command = (" ").join(all_args)
-    
+    command = ""
+    if(args is None):
+        command = temp_compile_path
+    else:
+        all_args = [temp_compile_path] + args
+        command = (" ").join(all_args)
+
     os.system(command)
 
 if __name__ == "__main__":
