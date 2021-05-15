@@ -11,6 +11,7 @@ from rnmd.util.extract_document_content import document_exists
 import rnmd
 import rnmd.config.mode_options as mode_options
 from rnmd.config.mode_printer import print_if
+import os
 
 def main():
 
@@ -52,8 +53,7 @@ def main():
 
     #For silent and force
     mode_options.parse(arguments)
-    rnmd.install_markdown.mode_options = mode_options
-    rnmd.make_proxy.mode_options = mode_options
+    set_global_options()
 
     #ps | grep `echo $$` | awk '{ print $4 }'
 
@@ -80,14 +80,9 @@ def main():
     elif(arguments.backup):
         rnmd.install_markdown.backup_document(doc_source)
     elif(arguments.backupto):
-        if(doc_source is not arguments.backupto):
-            backup_location = rnmd.install_markdown.copy_document_to(doc_source, arguments.backupto)
-            if(backup_location is None):
-                print_if("Failed to back up " + doc_source + " to dir " + arguments.backupto +"\n Make sure both paths exist", mode_options)
-            else:
-                print_if("Successfully backed up " + doc_source + " to dir " + arguments.backupto, mode_options)
+        backup_to(doc_source, arguments.backupto)
     elif(arguments.check):
-        print(document_exists(doc_source))
+        print(check_exists(doc_source))
     elif(arguments.proxy):
         proxy_target = arguments.proxy
         rnmd.make_proxy.make_proxy(doc_source, proxy_target)
@@ -102,3 +97,59 @@ def main():
         rnmd.compile_markdown.compile_markdown(doc_source, compile_target)
     else:
         rnmd.runtime.run_markdown(doc_source, arguments.args)
+
+def set_global_options():
+    rnmd.install_markdown.mode_options = mode_options
+    rnmd.make_proxy.mode_options = mode_options
+
+def check_exists(doc_source):
+    return document_exists(doc_source)
+
+def backup_to(source_doc, target_file_dir):
+    if(source_doc is not target_file_dir):
+        backup_location = rnmd.install_markdown.copy_document_to(source_doc, target_file_dir)
+        if(backup_location is None):
+            print_if("Failed to back up " + source_doc + " to dir " + target_file_dir +"\n Make sure both paths exist", mode_options)
+        else:
+            print_if("Successfully backed up " + source_doc + " to dir " + target_file_dir, mode_options)
+
+def run_proxy(doc_path, backup_path, args, command = "rnmd", update_backup = False):
+
+    #print("Start run proxy process:")
+    #print(doc_path)
+    #print(backup_path)
+    #print(args)
+    #print(command)
+    #print(update_backup)
+
+    if(check_exists(doc_path)):
+
+        if(update_backup):
+            mode_options.force = True
+            mode_options.silent = True
+            set_global_options()
+            backup_to(doc_path, backup_path)
+
+        if(command == "rnmd"):
+            rnmd.runtime.run_markdown(doc_path, args)
+        else:
+            if(args is None):
+                args = []
+            all_args = [command, doc_path] + args
+            run_command = (" ").join(all_args)
+            print("Running command: " + run_command)
+            os.system(run_command)
+        
+        return 
+
+    if(backup_path is None):
+        return
+
+    print("The markdown file " + doc_path +" linked to by this proxy does not exist.")
+    print("Did you move the file -> if so please reinstall for the new path by: ")
+    print("rnmd NEW_MARKDOWN_PATH --install SCRIPTNAME")
+
+    print("Do you want to try to run the backup instead? (y/n)")
+    answer = input()
+    if(answer != "y"):
+        return run_proxy(backup_path, None, args, command, update_backup = False)

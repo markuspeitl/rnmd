@@ -6,7 +6,7 @@ from rnmd.config.mode_printer import print_if
 mode_options = None
 current_script_dir = os.path.dirname(__file__)
 installer_file_path = os.path.join(current_script_dir,"include-install-rnmd.sh")
-template_file_path = os.path.join(current_script_dir,"proxy-template.txt")
+template_file_path = os.path.join(current_script_dir,"proxy-template-py.txt")
 
 with open(template_file_path, "r") as template_file:
     template_string = template_file.read()
@@ -47,8 +47,9 @@ def make_proxy(source_path, target_path, backup_path = None, relative = False, l
 
     if(relative):
         #Relative path from proxy file to markdown doc
-        markdown_doc_path = doc_tools.get_rel_shell_path(markdown_doc_path,target_path)
-        backup_doc_path = doc_tools.get_rel_shell_path(backup_path,target_path)
+        markdown_doc_path = doc_tools.get_rel_document_location(markdown_doc_path,target_path)
+        backup_doc_path = doc_tools.get_rel_document_location(backup_path,target_path)
+
 
     #if(backup_path is None):
     #    backup_path = ""
@@ -60,7 +61,8 @@ def make_proxy(source_path, target_path, backup_path = None, relative = False, l
         'runtime_path': runtime_path, 
         'markdown_doc_path': markdown_doc_path,
         'backup_path': backup_doc_path,
-        'update_backup': update_backup
+        'update_backup': update_backup,
+        'is_rel_path': relative
     }
     proxy_string = proxy_template.substitute(**substitution_dict)
 

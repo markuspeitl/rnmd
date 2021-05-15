@@ -1,0 +1,49 @@
+#!/usr/bin/env python3
+
+import os
+import subprocess
+
+def run_installer():
+    try:
+        import rnmd
+    except Exception as exception:
+        print("Could not locate rnmd which is required to run this script.")
+        print("Do you want to install it? (y/n)")
+        answer = input()
+        if(answer != "y"):
+            exit()
+
+        try:
+            pip_installed = subprocess.check_output(['python3', '-m','pip','-V'])
+            print("Pip found at: " + str(pip_installed))
+        except subprocess.CalledProcessError as e:
+            print("Could not install 'rnmd' as pip3 is not installed on your system, please install and try again!")
+            exit()
+
+        os.system("pip3 install rnmd")
+
+
+
+run_installer()
+
+import rnmd.rnmd as rnmd
+import sys
+
+is_rel_path = $is_rel_path
+markdown_doc_path = "$markdown_doc_path"
+backup_path = "$backup_path"
+run_command = "$runtime_path"
+update_backup = $update_backup
+
+
+if(is_rel_path):
+    this_dir = os.path.dirname(os.path.realpath(__file__))
+    markdown_doc_path = os.path.join(this_dir, markdown_doc_path)
+    backup_path = os.path.join(this_dir, backup_path)
+
+script_name = __file__
+script_arg_index = sys.argv.index(script_name)
+passed_args = sys.argv[script_arg_index + 1:]
+
+rnmd.run_proxy(markdown_doc_path, backup_path, passed_args, command = run_command, update_backup = update_backup)
+    

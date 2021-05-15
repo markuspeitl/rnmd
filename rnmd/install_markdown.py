@@ -78,7 +78,8 @@ def move_document_to_portable(source_doc_location):
     return move_document_to(source_doc_location, notebook_portable_path)
 
 def ask_yes(text):
-    if(mode_options.force):
+    
+    if(mode_options is not None and mode_options.force):
         return True
 
     print(text)
