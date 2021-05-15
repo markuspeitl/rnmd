@@ -3,7 +3,8 @@ from rnmd.util.extract_document_content import extract_document_content
 delimiterToken="```"
 
 def extract_code_from_doc(sourceUri):
-    
+    print("Extract code from " + sourceUri)
+
     documentation_contents = extract_document_content(sourceUri)
 
     if(documentation_contents is None):

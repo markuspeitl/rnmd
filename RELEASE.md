@@ -2,6 +2,11 @@
 
 The release notes and version history of the project.
 
+## v1.0.1
+
+- Fixed execution of documents without any arguments
+- Fixed making proxy with rnmd
+
 ## v1.0.0
 
 - Initial release

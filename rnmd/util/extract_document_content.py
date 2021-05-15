@@ -18,21 +18,21 @@ def document_exists(source_location):
 def get_abs_document_location(source_location):
     if(is_url(source_location)):
         return source_location
-    elif(is_file_exists):
+    elif(is_file_exists(source_location)):
         return os.path.abspath(source_location)
     return None
 
 def get_rel_document_location(source_location,reference_location):
     if(is_url(source_location)):
         return source_location
-    elif(is_file_exists):
+    elif(is_file_exists(source_location)):
         return os.path.relpath(source_location, os.path.dirname(reference_location))
     return None
 
 def get_rel_shell_path(source_location, reference_location):
     if(is_url(source_location)):
         return source_location
-    elif(is_file_exists):
+    elif(is_file_exists(source_location)):
         rel_source_location = os.path.relpath(source_location, os.path.dirname(reference_location))
         #Has to be added in bash so that the path is resolved from the proxies location (and not the caller directory)
         return os.path.join("`dirname $0`", rel_source_location)
