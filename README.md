@@ -1,6 +1,34 @@
 # rnmd - markdown execution runtime
 
-Why? Execute code contained in markdown documentation.
+RNMD is a mardown execution runtime which can be used to run code contained inside of a markdown file.  
+The vision behind it is to have your documentation and code together in one place and not maintain
+2 versions of the same code (1 in .md and 1 script file).  
+
+Especially useful when automatizing things under linux as it is easy to forget what some scripts were for,
+if they do not contain documentation and maintaining the script and a good looking documentation would be too much effort.
+(Especially with the very stripped down syntax of many command line programs this can become a problem)  
+
+In that regard **rnmd** also has installation features through which to manage these scripts make them optionally executable/runnable
+from anywhere on the system. (mainly for automatization)
+
+It also adds features to easily transport your scripts and documentation to different machines.
+Just make your markdown notebook a git repository and pull your commands to any machine.
+Or just use **rnmd** to run code of markdown files from an online url. (Easily share your code)
+
+Currently **supported languages** are:
+
+- bash script
+
+**TODOS:**
+
+- Add specific block execution (--> makes it possible to run the samples in this readme)
+- Support more languages (maybe add possibility to specify run command in markdown)
+- Resolve module imports (To write whole programs using rnmd)
+- Resolve paths (it they are for instance relative to the .md script)
+- Improve argparse option handling
+- Namespaces and modules (prevent name conflicts by grouping documents and their backups)
+- Multi Notebook management
+- Windows support (the proxies are right now bash on shell script and therefore not portable -> switch to python3)
 
 ## Running code contained in a markdown file
 
@@ -148,3 +176,10 @@ which in turn hurts adoption of this project as it would pretty much restrict it
 usage to GPL programs only.  
 
 Because of these reasons the LGPL2.1 Licence was chosen.  
+
+### If you like the project consider dropping me a coffee
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?hosted_button_id=BSFX8LCPHW2AE)
+  
+<br>  
+<br>
