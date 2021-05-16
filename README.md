@@ -18,17 +18,20 @@ Or just use **rnmd** to run code of markdown files from an online url. (Easily s
 Currently **supported languages** are:
 
 - bash script
+- python
+- nodejs
 
 **TODOS:**
 
 - Add specific block execution (--> makes it possible to run the samples in this readme)
-- Support more languages (maybe add possibility to specify run command in markdown)
+- Support more languages (maybe add possibility to specify run command in markdown - add system to add new languages dynamically)
 - Resolve module imports (To write whole programs using rnmd)
 - Resolve paths (it they are for instance relative to the .md script)
 - Improve argparse option handling
 - Namespaces and modules (prevent name conflicts by grouping documents and their backups)
 - Multi Notebook management
-- Windows support (the proxies are right now bash on shell script and therefore not portable -> switch to python3)
+- Windows support (might actually work now as the proxies are in python and the paths were defined i a platform independent way)
+- Remote execution (execute compiled code on remote machine via ssh, install on remote machine)
 
 ## Installation
 
@@ -110,7 +113,8 @@ Note: Installing works for .sh scripts as well, so you can easily install them t
 
 Proxies are currently bash scripts with a shebang for easy execution of a linked document using rnmd.
 The however have other functions included as well:
-1. An included installer: 
+
+1. An included installer:  
 If **rnmd** is not yet installed the script asks the user if he wants to install it on the machine.
 If yes was selected **rnmd** is installed using **pip3**
 Note: python3 and pip3 are requirements of rnmd.
