@@ -18,6 +18,8 @@ Or just use **rnmd** to run code of markdown files from an online url. (Easily s
 Currently **supported languages** are:
 
 - bash script
+- python3
+- nodejs
 
 **TODOS:**
 
