@@ -1,6 +1,6 @@
 # rnmd - markdown execution runtime
 
-RNMD is a mardown execution runtime which can be used to run code contained inside of a markdown file.  
+RNMD is a markdown execution runtime which can be used to run code contained inside of a markdown file.  
 The vision behind it is to have your documentation and code together in one place and not maintain
 2 versions of the same code (1 in .md and 1 script file).  
 
