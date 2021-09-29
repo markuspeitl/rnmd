@@ -6,6 +6,7 @@ default_compile_dir="/tmp/rnmd"
 os.makedirs(default_compile_dir, exist_ok=True)
 
 def run_markdown(source, args):
+    print(args)
 
     temp_compile_path = os.path.join(default_compile_dir, os.path.basename(source))
 
@@ -15,6 +16,7 @@ def run_markdown(source, args):
     if(args is None):
         command = temp_compile_path
     else:
+        args = list(map(lambda arg: "\""+arg+"\"",args))
         all_args = [temp_compile_path] + args
         command = (" ").join(all_args)
 

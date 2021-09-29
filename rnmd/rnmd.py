@@ -137,12 +137,15 @@ def run_proxy(doc_path, backup_path, args, command = "rnmd", update_backup = Fal
 
         if(command == "rnmd"):
             
+            args = list(map(lambda arg: "\""+arg+"\"",args))
             all_args = [command, doc_path] + ["--args"] + args
+            print(all_args)
             run_command = (" ").join(all_args)
             print("Running command: " + run_command)
             os.system(run_command)
             #rnmd.runtime.run_markdown(doc_path, args)
         else:
+            args = list(map(lambda arg: "\""+arg+"\"",args))
             all_args = [command, doc_path] + args
             run_command = (" ").join(all_args)
             print("Running command: " + run_command)
